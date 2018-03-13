@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block head %}
+<link href="static/css/signin.css" rel="stylesheet">
+{% endblock %}
+{% from "security/_macros.html" import render_field_with_errors, render_field %}
+{% block nav %}{% endblock %}
+{% block content %}
+<body class="text-center">
+  <div class="container">
+  <h1>{{ _('Login') }}</h1>
+
+  <form action="{{ url_for_security('login') }}" class="form-signin" method="POST" name="login_user_form">
+    {{ login_user_form.hidden_tag() }}
+    {{ render_field_with_errors(login_user_form.email, class="form-control") }}
+    {{ render_field_with_errors(login_user_form.password, class="form-control") }}
+    {{ render_field_with_errors(login_user_form.remember) }}
+    <div class="checkbox mb-3">
+    {{ render_field(login_user_form.next) }}
+    </div>
+    {{ render_field(login_user_form.submit, class="btn btn-lg btn-primary btn-block") }}
+  </form>
+  {% include "security/_menu.html" %}
+
+</div>
+</body>
+{% endblock %}

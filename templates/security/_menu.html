@@ -1,0 +1,15 @@
+{% if security.registerable or security.recoverable or security.confirmable %}
+
+
+<a href="{{ url_for_security('login') }}{% if 'next' in request.args %}?next={{ request.args.next|urlencode }}{% endif %}" class="badge badge-info">{{ _('Login') }}</a>
+  {% if security.registerable %}
+<a href="{{ url_for_security('register') }}{% if 'next' in request.args %}?next={{ request.args.next|urlencode }}{% endif %}" class="badge badge-info">{{ _('Register') }}</a><br/>
+  {% endif %}
+  {% if security.recoverable %}
+<a href="{{ url_for_security('forgot_password') }}" class="badge badge-info">{{ _('Forgot password') }}</a><br/>
+  {% endif %}
+  {% if security.confirmable %}
+<a href="{{ url_for_security('send_confirmation') }}" class="badge badge-info">{{ _('Confirm account') }}</a>
+  {% endif %}
+
+{% endif %}
