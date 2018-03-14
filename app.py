@@ -29,13 +29,13 @@ security = Security(app, user_datastore)
 
 
 # Create a user to test with
-'''
+
 @app.before_first_request
 def create_user():
     init_db()
     user_datastore.create_user(email='fredrik@ostro.se', password='password')
     db_session.commit()
-'''
+
 
 
 # Views
@@ -84,11 +84,19 @@ def show_goal(goal_id):
     return render_template('show_goal.html', goal=goal)
 
 
-@app.route('/goals/<goal_id>/events')
+@app.route('/goals/<goal_id>/events', methods=['GET', 'POST'])
 @login_required
 def goal_events(goal_id):
-    events = db_session.query(Event).order_by(Event.id)
-    return render_template('events.html', events=events)
+    if request.method == 'POST':
+        event = Event(description=request.form['description'],
+                      goal_id=goal_id)
+        db_session.add(event)
+        db_session.commit()
+
+        return redirect(url_for('goal_events', goal_id=goal_id))
+    else:
+        events = db_session.query(Event).filter_by(goal_id=goal_id).all()
+        return render_template('events.html', events=events, goal_id=goal_id)
 
 
 if __name__ == '__main__':

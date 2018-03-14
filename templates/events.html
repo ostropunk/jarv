@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<div class="container">
+  <!-- Content here -->
+<form action="{{ url_for('goal_events', goal_id=goal_id) }}" method=post class=add-entry>
+  <div class="form-group">
+    <label for="descriptionBox">Description</label>
+    <textarea name="description" id="descriptionBox" class="form-control" rows="3" cols="20"></textarea>
+    <input class="btn btn-primary" type=submit value=Submit>
+  </div>
+</form>
+<table class="table">
+<thead>
+<tr>
+  <th scope="col">Date</th>
+  <th scope="col">Description</th>
+</tr>
+</thead>
+<tbody>
+{% for event in events %}
+<tr>
+  <th scope="row">{{ event.pub_date.strftime("%Y-%m-%d %H:%M:%S") }}</th>
+  <td>{{ event.description }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% endblock %}

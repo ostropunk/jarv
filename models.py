@@ -56,7 +56,6 @@ class Goal(Base):
 class Event(Base):
     __tablename__ = 'events'
     id = Column(Integer, primary_key=True)
-    name = Column(String(50), nullable=False)
     description = Column(String(255))
     pub_date = Column(DateTime, nullable=False,
                       default=datetime.utcnow)
