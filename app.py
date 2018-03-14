@@ -50,8 +50,45 @@ def home():
 @app.route('/users')
 @login_required
 def users():
-    user = db_session.query(User).order_by(User.id)
-    return render_template('users.html', user=user)
+    users = db_session.query(User).order_by(User.id)
+    return render_template('users.html', users=users)
+
+
+@app.route('/goals')
+@login_required
+def goals():
+    goals = db_session.query(Goal).order_by(Goal.id)
+    return render_template('goals.html', goals=goals)
+
+
+@app.route('/goals/add', methods=['GET', 'POST'])
+@login_required
+def add_goals():
+    if request.method == 'POST':
+        goal = Goal(title=request.form['title'],
+                    description=request.form['description'],
+                    deadline=datetime.strptime(request.form['deadline'],
+                                               '%Y-%m-%d'))
+        db_session.add(goal)
+        db_session.commit()
+
+        return redirect(url_for('goals'))
+
+    else:
+        return render_template('add_goal.html')
+
+
+@app.route('/goals/<goal_id>')
+def show_goal(goal_id):
+    goal = db_session.query(Goal).get(goal_id)
+    return render_template('show_goal.html', goal=goal)
+
+
+@app.route('/goals/<goal_id>/events')
+@login_required
+def goal_events(goal_id):
+    events = db_session.query(Event).order_by(Event.id)
+    return render_template('events.html', events=events)
 
 
 if __name__ == '__main__':
