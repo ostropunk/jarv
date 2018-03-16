@@ -3,22 +3,21 @@
 {% block content %}
   <div class="container">
   <h1>{{ title }}</h1>
-  <a href="{{ url_for('add_goals') }}" class="badge badge-info">+ Add Goal</a>
   <ul class="list-group">
     <table class="table">
   <thead>
     <tr>
       <th scope="col">#</th>
-      <th scope="col">Goal</th>
-      <th scope="col">Deadline</th>
+      <th scope="col">Namn</th>
+      <th scope="col">E-mejl</th>
     </tr>
   </thead>
   <tbody>
-    {% for goal in goals %}
+    {% for user in users %}
     <tr>
-      <th scope="row">{{ goal.id }}</th>
-      <td><a href="{{ url_for('show_goal', goal_id=goal.id) }}">{{ goal.title }}</a></td>
-      <td>{{ goal.deadline }}</td>
+      <th scope="row">{{ user.id }}</th>
+      <td>{{ user.username }}</td>
+      <td>{{ user.email }}</td>
     </tr>
     {% endfor %}
   </tbody>

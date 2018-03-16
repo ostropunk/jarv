@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<div class="container">
+  <!-- Content here -->
+<form action="{{ url_for('add_missions') }}" method=post class=add-entry>
+  <div class="form-group">
+    <label for="descriptionBox">Beskrivning</label>
+    <textarea name="description" id="descriptionBox" class="form-control" rows="3" cols="20"></textarea>
+    <input class="btn btn-primary" type=submit value=Skicka>
+  </div>
+</form>
+</div>
+{% endblock %}

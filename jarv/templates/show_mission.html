@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <h1>{{ mission.description}}</h1>
+  <br>
+  <h3>Laggande mått</h3>
+  <a href="{{ url_for('add_goals', mission_id=mission.id) }}" class="badge badge-info">+ Lägg mått</a>
+  <ul class="list-group">
+    <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Mått</th>
+      <th scope="col">Deadline</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for goal in mission.goals %}
+    <tr>
+      <th scope="row">{{ goal.id }}</th>
+      <td><a href="{{ url_for('show_goal', mission_id=mission.id, goal_id=goal.id) }}">{{ goal.title }}</a></td>
+      <td>{{ goal.deadline }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+</div>
+{% endblock %}

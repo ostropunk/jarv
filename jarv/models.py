@@ -38,6 +38,13 @@ class User(Base, UserMixin):
                          backref=backref('users', lazy='dynamic'))
 
 
+class Mission(Base):
+    __tablename__ = 'missions'
+    id = Column(Integer, primary_key=True)
+    description = Column(String(255), nullable=False)
+    goals = relationship('Goal', backref='missions', lazy=True)
+
+
 class Goal(Base):
     __tablename__ = 'goals'
     id = Column(Integer, primary_key=True)
@@ -45,6 +52,9 @@ class Goal(Base):
     description = Column(Text, nullable=False)
     pub_date = Column(DateTime, nullable=False,
                       default=datetime.utcnow)
+    goal_count = Column(Integer, nullable=False)
+
+    mission_id = Column(Integer, ForeignKey('missions.id'), nullable=False)
     deadline = Column(DateTime())
 
     events = relationship('Event', backref='goals', lazy=True)
@@ -63,4 +73,4 @@ class Event(Base):
                      nullable=False)
 
     def __repr__(self):
-        return '<Event %r>' % self.name
+        return '<Event %r>' % self.id

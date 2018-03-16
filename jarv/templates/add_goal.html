@@ -3,18 +3,22 @@
 {% block content %}
 <div class="container">
   <!-- Content here -->
-<form action="{{ url_for('add_goals') }}" method=post class=add-entry>
+<form action="{{ url_for('add_goals', mission_id=mission_id) }}" method=post class=add-entry>
   <div class="form-group">
-    <label for="titleBox">Title</label>
+    <label for="titleBox">Titel</label>
     <input name="title" id="titleBox" class="form-control" type=text size=30 name=title cols="20">
+  </div>
+  <div class="form-group">
+    <label for="goalBox">Målsättning</label>
+    <input name="goal_count" id="goalBox" class="form-control" type=text size=30 name=title cols="20">
   </div>
   <div class="form-group">
     <label for="deadlineBox">Deadline*</label>
     <input name="deadline" id="deadlineBox" class="form-control" type=text size=30 name=title cols="20" aria-describedby="deadlineHelp" placeholder="20YY-MM-DD">
-    <small id="deadlineHelp" class="form-text text-muted">*Deadline must be in the format YYYY-MM-DD.</small>
+    <small id="deadlineHelp" class="form-text text-muted">*Deadline måste skrivas i formatet YYYY-MM-DD.</small>
   </div>
   <div class="form-group">
-    <label for="descriptionBox">Description</label>
+    <label for="descriptionBox">Beskrivning</label>
     <textarea name="description" id="descriptionBox" class="form-control" rows="3" cols="20"></textarea>
     <input class="btn btn-primary" type=submit value=Submit>
   </div>

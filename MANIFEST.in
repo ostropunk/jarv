@@ -1,0 +1,4 @@
+graft jarv/templates
+graft jarv/static
+include database.py
+include models.py

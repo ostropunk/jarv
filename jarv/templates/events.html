@@ -3,18 +3,18 @@
 {% block content %}
 <div class="container">
   <!-- Content here -->
-<form action="{{ url_for('goal_events', goal_id=goal_id) }}" method=post class=add-entry>
+<form action="{{ url_for('goal_events', goal_id=goal_id , mission_id=mission_id) }}" method=post class=add-entry>
   <div class="form-group">
-    <label for="descriptionBox">Description</label>
+    <label for="descriptionBox">Beskrivning</label>
     <textarea name="description" id="descriptionBox" class="form-control" rows="3" cols="20"></textarea>
-    <input class="btn btn-primary" type=submit value=Submit>
+    <input class="btn btn-primary" type=submit value=Skicka>
   </div>
 </form>
 <table class="table">
 <thead>
 <tr>
-  <th scope="col">Date</th>
-  <th scope="col">Description</th>
+  <th scope="col">Datum</th>
+  <th scope="col">Beskrivning</th>
 </tr>
 </thead>
 <tbody>
