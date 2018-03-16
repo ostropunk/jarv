@@ -1,18 +1,24 @@
-from flask import Flask, render_template, request, flash, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for
 from datetime import datetime
 from flask_security import Security, login_required, \
      SQLAlchemySessionUserDatastore
-from database import db_session, init_db
-from models import User, Role, Goal, Event, Mission
-from flask_mail import Mail
+from jarv.database import db_session, init_db
+from jarv.models import User, Role, Goal, Event, Mission
+
 
 # Create app
 app = Flask(__name__)
-app.config['DEBUG'] = True
-app.config['SECRET_KEY'] = 'super-secret'
-app.config['SECURITY_PASSWORD_HASH'] = 'bcrypt'
-app.config['SECURITY_PASSWORD_SALT'] = 'thisismybreadandsalt'
+app.config.from_object(__name__)  # load config from this file , flaskr.py
+app.config.update(dict(
+    SECRET_KEY='development key',
+    DEBUG=True,
+    SECURITY_PASSWORD_HASH='bcrypt',
+    SECURITY_PASSWORD_SALT='thisismybreadandsalt'
+))
 
+
+print('Yes!')
+app.config.from_envvar('JARV_SETTINGS', silent=True)
 # After 'Create app'
 
 # Setup Flask-Security
@@ -28,6 +34,7 @@ def create_user():
     user_datastore.create_user(email='fredrik@ostro.se', password='password')
     db_session.commit()
 '''
+
 
 # Views
 @app.route('/')

@@ -1,4 +1,4 @@
-from database import Base
+from jarv.database import Base
 from datetime import datetime
 from flask_security import UserMixin, RoleMixin
 from sqlalchemy import create_engine
