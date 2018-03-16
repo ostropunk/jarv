@@ -17,7 +17,6 @@ app.config.update(dict(
 ))
 
 
-print('Yes!')
 app.config.from_envvar('JARV_SETTINGS', silent=True)
 # After 'Create app'
 
@@ -43,13 +42,6 @@ def home():
     title = "Home"
     message = 'Here you go!'
     return render_template('index.html', title=title, message=message)
-
-
-@app.route('/users')
-@login_required
-def users():
-    users = db_session.query(User).order_by(User.id)
-    return render_template('users.html', users=users)
 
 
 @app.route('/mal')
@@ -108,11 +100,9 @@ def add_goals(mission_id):
 
 @app.route('/mal/<mission_id>/matt/<goal_id>')
 def show_goal(mission_id, goal_id):
-    print(goal_id)
     goal_id = int(goal_id)
     goal = db_session.query(Goal).get(goal_id)
     events = goal.events
-    print(len(events))
     return render_template('show_goal.html', goal=goal, goal_id=goal_id,
                            mission_id=mission_id,
                            deadline=goal.deadline.strftime("%Y-%m-%d"),
@@ -129,10 +119,32 @@ def goal_events(mission_id, goal_id):
         db_session.add(event)
         db_session.commit()
 
-        return redirect(url_for('goal_events', goal_id=goal_id, mission_id=mission_id))
+        return redirect(url_for('goal_events', goal_id=goal_id,
+                        mission_id=mission_id))
     else:
         events = db_session.query(Event).filter_by(goal_id=goal_id).all()
-        return render_template('events.html', events=events, goal_id=goal_id, mission_id=mission_id)
+        return render_template('events.html', events=events, goal_id=goal_id,
+                               mission_id=mission_id)
+
+
+@app.route('/installningar')
+@login_required
+def settings():
+    pass
+
+
+@app.route('/installningar/roller')
+@login_required
+def roles():
+    roles = db_session.query(Role).order_by(Role.id)
+    return render_template('roles.html', roles=roles)
+
+
+@app.route('/users')
+@login_required
+def users():
+    users = db_session.query(User).order_by(User.id)
+    return render_template('users.html', users=users)
 
 
 if __name__ == '__main__':
