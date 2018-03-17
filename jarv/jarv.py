@@ -30,7 +30,7 @@ security = Security(app, user_datastore)
 @app.before_first_request
 def create_user():
     init_db()
-    user_datastore.create_user(email='fredrik@ostro.se', password='password')
+    user_datastore.create_user(email='email@email.com', password='password')
     db_session.commit()
 '''
 
@@ -44,6 +44,7 @@ def home():
     return render_template('index.html', title=title, message=message)
 
 
+@app.route('/mal/')
 @app.route('/mal')
 @login_required
 def missions():
@@ -51,6 +52,7 @@ def missions():
     return render_template('missions.html', missions=missions)
 
 
+@app.route('/mal/add/', methods=['GET', 'POST'])
 @app.route('/mal/add', methods=['GET', 'POST'])
 @login_required
 def add_missions():
@@ -65,6 +67,7 @@ def add_missions():
         return render_template('add_mission.html')
 
 
+@app.route('/mal/<mission_id>/')
 @app.route('/mal/<mission_id>')
 @login_required
 def show_mission(mission_id):
@@ -72,6 +75,7 @@ def show_mission(mission_id):
     return render_template('show_mission.html', mission=mission)
 
 
+@app.route('/mal/<mission_id>/matt/')
 @app.route('/mal/<mission_id>/matt')
 @login_required
 def goals(mission_id):
@@ -79,6 +83,7 @@ def goals(mission_id):
     return render_template('goals.html', goals=goals, mission_id=mission_id)
 
 
+@app.route('/mal/<mission_id>/matt/add/', methods=['GET', 'POST'])
 @app.route('/mal/<mission_id>/matt/add', methods=['GET', 'POST'])
 @login_required
 def add_goals(mission_id):
@@ -98,6 +103,7 @@ def add_goals(mission_id):
         return render_template('add_goal.html', mission_id=mission_id)
 
 
+@app.route('/mal/<mission_id>/matt/<goal_id>/')
 @app.route('/mal/<mission_id>/matt/<goal_id>')
 def show_goal(mission_id, goal_id):
     goal_id = int(goal_id)
@@ -109,6 +115,7 @@ def show_goal(mission_id, goal_id):
                            events=len(events))
 
 
+@app.route('/mal/<mission_id>/matt/<goal_id>/event/', methods=['GET', 'POST'])
 @app.route('/mal/<mission_id>/matt/<goal_id>/event', methods=['GET', 'POST'])
 @login_required
 def goal_events(mission_id, goal_id):
@@ -127,12 +134,14 @@ def goal_events(mission_id, goal_id):
                                mission_id=mission_id)
 
 
+@app.route('/installningar/')
 @app.route('/installningar')
 @login_required
 def settings():
     pass
 
 
+@app.route('/installningar/roller/')
 @app.route('/installningar/roller')
 @login_required
 def roles():
@@ -140,11 +149,49 @@ def roles():
     return render_template('roles.html', roles=roles)
 
 
-@app.route('/users')
+@app.route('/installningar/roller/add/', methods=['GET', 'POST'])
+@app.route('/installningar/roller/add', methods=['GET', 'POST'])
+@login_required
+def add_roles():
+    if request.method == 'POST':
+        role = Role(name=request.form['name'],
+                    description=request.form['description'])
+        db_session.add(role)
+        db_session.commit()
+
+        return redirect(url_for('roles'))
+
+    else:
+        return render_template('add_role.html')
+
+
+@app.route('/installningar/users/')
+@app.route('/installningar/users')
 @login_required
 def users():
     users = db_session.query(User).order_by(User.id)
     return render_template('users.html', users=users)
+
+
+@app.route('/installningar/users/add/')
+@app.route('/installningar/users/add')
+@login_required
+def add_users():
+    if request.method == 'POST':
+        user = Role(name=request.form['name'],
+                    description=request.form['description'],
+                    email=)
+
+                    email = Column(String(255), unique=True)
+                    username = Column(String(255))
+                    password = Column(String(255))
+        db_session.add(user)
+        db_session.commit()
+
+        return redirect(url_for('users'))
+
+    else:
+        return render_template('add_user.html')
 
 
 if __name__ == '__main__':

@@ -15,7 +15,7 @@
     {% for role in roles %}
     <tr>
       <th scope="row">{{ role.id }}</th>
-      <td><a href="{{ url_for('show_role', role_id=role.id) }}">{{ mission.role }}</a></td>
+      <td>{{ role.name }}</td>
     </tr>
     {% endfor %}
   </tbody>
